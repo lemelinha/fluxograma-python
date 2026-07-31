@@ -1,0 +1,8 @@
+src/vendor/
+
+Dockerfile*
+docker-compose*
+
+.git/
+.idea/
+src/storage/logs/*

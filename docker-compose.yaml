@@ -6,20 +6,27 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./api:/var/www/api
-      - ./react/build:/var/www/web
-      - ./nginx/api.conf:/etc/nginx/conf.d/api.conf
-      - ./nginx/web.conf:/etc/nginx/conf.d/web.conf
-      - ./nginx/certs:/etc/nginx/certs
+      - ./scr:/var/www/scr:ro
+
+      - ./nginx/api.conf:/etc/nginx/conf.d/api.conf:ro
+      - ./nginx/health.conf:/etc/nginx/conf.d/health.conf:ro
+
+      - ./nginx/certs:/etc/nginx/certs:ro
     depends_on:
       api:
-        condicion: service_healthy
-      web:
-        condicion: service_healthy
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
   
   api:
-    build: ./api
     container_name: ic_api
-
-  web:
-    build: ./react
+    healthcheck:
+      test: ["CMD", "php-fpm", "-t"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
