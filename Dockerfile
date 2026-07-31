@@ -24,9 +24,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/api/
 
 COPY src/composer.json src/composer.lock .
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-scripts --no-autoloader
 
 COPY --chown=www-data:www-data ./src .
+RUN composer install -o
 
 RUN chown -R www-data:www-data /var/www/api/ && \
     chmod -R 775 /var/www/api/storage /var/www/api/bootstrap/cache

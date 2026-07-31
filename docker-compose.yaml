@@ -6,7 +6,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./scr:/var/www/scr:ro
+      - ./src:/var/www/api:ro
 
       - ./nginx/api.conf:/etc/nginx/conf.d/api.conf:ro
       - ./nginx/health.conf:/etc/nginx/conf.d/health.conf:ro
@@ -23,6 +23,8 @@ services:
       start_period: 10s
   
   api:
+    build:
+      dockerfile: Dockerfile
     container_name: ic_api
     healthcheck:
       test: ["CMD", "php-fpm", "-t"]
