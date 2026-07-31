@@ -1,0 +1,10 @@
+services:
+  react:
+    build: 
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./react/src:/app/src:ro
+
+  api:
+    volumes:
+      - ./api:/var/www/api

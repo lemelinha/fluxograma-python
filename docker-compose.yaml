@@ -1,0 +1,25 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: ic_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./api:/var/www/api
+      - ./react/build:/var/www/web
+      - ./nginx/api.conf:/etc/nginx/conf.d/api.conf
+      - ./nginx/web.conf:/etc/nginx/conf.d/web.conf
+      - ./nginx/certs:/etc/nginx/certs
+    depends_on:
+      api:
+        condicion: service_healthy
+      web:
+        condicion: service_healthy
+  
+  api:
+    build: ./api
+    container_name: ic_api
+
+  web:
+    build: ./react
