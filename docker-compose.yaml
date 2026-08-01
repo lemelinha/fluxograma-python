@@ -26,6 +26,8 @@ services:
     build:
       dockerfile: Dockerfile
     container_name: ic_api
+    volumes:
+      - ./src:/var/www/api/
     healthcheck:
       test: ["CMD", "php-fpm", "-t"]
       interval: 30s

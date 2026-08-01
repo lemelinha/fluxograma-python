@@ -13,7 +13,11 @@ class ConverterController extends Controller
 
     public function convert(Request $request, string $source, string $target)
     {
-        dd($this);
-        return ['source' => $source, 'target' => $target];
+        $ast='';
+        switch ($source) {
+            case 'flowchart':
+                $ast = $this->FlowchartToAstService->convert($source);
+        }
+        return response()->json($ast);
     }
 }
