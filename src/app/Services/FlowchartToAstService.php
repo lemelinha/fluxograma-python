@@ -3,7 +3,7 @@
 namespace App\Services;
 
 class FlowchartToAstService {
-    public function convert(string $source){
-        return response()->json(['source' => 'Olá Mundo! '.$source]);
+    public function convert(array $nodes, array $edges){
+        return ['aa'];
     }
 }
