@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\FlowchartToAstService;
+use App\Flowchart\FlowchartGraph;
 
 class ConverterController extends Controller
 {
@@ -83,6 +84,8 @@ class ConverterController extends Controller
     
         switch ($source) {
             case 'flowchart':
+                $graph = new FlowchartGraph($nodes, $edges);
+                $graph->validate();
                 $ast = $this->FlowchartToAstService->convert($nodes, $edges);
                 break;
             case "python":
