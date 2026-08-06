@@ -13,11 +13,9 @@ class FlowchartGraphException extends Exception
      */
     public function report(): void
     {
-        $text = "Erro em gerar Grafo a partir do fluxograma: " . $this->getMessage();
-        foreach ($this->getTrace() as $t) {
-            $text .= $t;
-        }
-        Log::error($text);
+        $text = "Erro em gerar Grafo a partir do fluxograma: ";
+        
+        Log::error($text, ["exception" => $this]);
     }
 
     /**

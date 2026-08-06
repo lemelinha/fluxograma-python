@@ -61,9 +61,9 @@ final class FlowchartGraph {
         if (
             array_key_exists($endId, $this->outGoing) ||
             !array_key_exists($endId, $this->inComing) ||
-            count($this->inComing) != 1
+            count($this->inComing[$endId]) != 1
         ) {
-            throw new FlowchartGraphException("End node must have one out edge and no one entry edge");
+            throw new FlowchartGraphException("End node must have one entry edge and no one out edge");
         }
     }
 }
