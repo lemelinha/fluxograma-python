@@ -86,13 +86,11 @@ class ConverterController extends Controller
             case 'flowchart':
                 $graph = new FlowchartGraph($nodes, $edges);
                 $graph->validate();
-                $ast = $this->FlowchartToAstService->convert($nodes, $edges);
                 break;
             case "python":
-                $ast = ["message" => "convert python to AST to flowchart"];
                 break;
         }
 
-        return response()->json($ast);
+        return response()->json(['status' => 'ok', 'message' => 'tudo ok']);
     }
 }
