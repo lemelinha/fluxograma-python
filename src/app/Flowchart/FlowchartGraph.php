@@ -66,4 +66,12 @@ final class FlowchartGraph {
             throw new FlowchartGraphException("End node must have one entry edge and no one out edge");
         }
     }
+
+    public function __get(string $name): array|FlowchartGraphException
+    {
+        if (!property_exists($this, $name)) {
+            throw new FlowchartGraphException("Property $name does nor exist");
+        }
+        return $this->$name;
+    }
 }
