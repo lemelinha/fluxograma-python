@@ -86,6 +86,8 @@ class ConverterController extends Controller
             case 'flowchart':
                 $graph = new FlowchartGraph($nodes, $edges);
                 $graph->validate();
+                $ast = $this->FlowchartToAstService->convert($graph);
+                dd($ast);
                 break;
             case "python":
                 break;
