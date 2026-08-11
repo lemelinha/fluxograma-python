@@ -3,12 +3,17 @@
 namespace App\Services;
 
 use App\Ast\{
-    Ast, 
+    AssignmentStatement,
+    Ast,
+    BinaryExpression,
     InitStatement,
     InputStatement,
     OutputStatement,
-    Statement
-    };
+    Literal,
+    Statement,
+    Variable
+};
+use App\Exceptions\FlowchartToAstException;
 use App\Flowchart\FlowchartGraph;
 
 class FlowchartToAstService {
@@ -34,7 +39,10 @@ class FlowchartToAstService {
 
             $statements[] = match ($cur_node["type"]) {
                 "init" => $this->AddInitStatement(),
+                "end" => $this->AddEndStatement(),
                 "input" => $this->AddInputStatement($cur_node),
+                "output" => $this->AddOutputStatement($cur_node),
+                "operation" => $this->AddOperation($cur_node),
                 default => dd($statements)
             };
 
@@ -49,11 +57,69 @@ class FlowchartToAstService {
         return new InitStatement();
     }
 
-    protected function AddInputStatement(array $node) {
+    protected function AddEndStatement(): InitStatement {
+        return new InitStatement();
+    }
+
+    protected function AddInputStatement(array $node): AssignmentStatement|InputStatement {
         $data = $node["data"];
-        return new InputStatement(
-            $data["type"],
-            $data["varName"]
+        $varName = $data["varName"];
+        $varType = $data["type"];
+
+        $expression = new Literal("string", $data["label"]);
+        $input = new InputStatement($varType, $expression);
+
+        if (!isset($this->variables[$varName])) {
+            $this->variables[$varName] = new Variable($varType, $varName);
+        }
+
+        return new AssignmentStatement($varName, $input);
+    }
+
+    protected function AddOutputStatement(array $node): OutputStatement {
+        $data = $node["data"];
+        $outputType = $data["expression"]["type"];
+        $outputValue = $data["expression"]["value"];
+
+        $expression = match ($outputType) {
+            "var" => $this->variables[$outputValue]?? throw new FlowchartToAstException("Variable $outputValue not declared")
+        };
+
+        return new OutputStatement($expression);
+
+    }
+
+    protected function AddOperation(array $node): AssignmentStatement {
+        $data = $node["data"];
+
+        $leftType = $data["left"]["type"];
+        $leftValue = $data["left"]["value"];
+        $rightType = $data["right"]["type"];
+        $rightValue = $data["right"]["value"];
+
+        $left = match ($leftType) {
+            "var" => $this->variables[$leftValue]?? throw new FlowchartToAstException("Variable $leftValue not declared"),
+            default => throw new FlowchartToAstException("Invalid var type in operation")
+        };
+
+        $right = match ($rightType) {
+            "var" => $this->variables[$rightValue]?? new FlowchartToAstException("Variable $rightValue not declared"),
+            default => throw new FlowchartToAstException("Invalid var type in operation")
+        };
+
+        $binaryExpression = new BinaryExpression(
+            $data["operator"],
+            $left,
+            $right
+        );
+
+        if (!isset($this->variables[$data["varName"]])) {
+            $this->variables[$data["varName"]] = new Variable("", $data["varName"]);
+        }
+
+        return new AssignmentStatement(
+            $data["varName"],
+            $binaryExpression
         );
     }
 }

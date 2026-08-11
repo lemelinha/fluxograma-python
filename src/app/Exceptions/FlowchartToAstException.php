@@ -6,20 +6,20 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
-class FlowchartGraphException extends Exception
+class FlowchartToAstException extends Exception
 {
     /**
      * Report the exception.
      */
     public function report(): void
     {
-        $text = "Erro em gerar Grafo a partir do fluxograma: ";
+        $text = "Erro em converter o fluxograma para Ast: ";
         
         Log::error($text, ["exception" => $this]);
     }
 
     /**
-     * Render the exception as an JSON response.
+     * Render the exception as an HTTP response.
      */
     public function render(): JsonResponse
     {
