@@ -67,7 +67,7 @@ final class FlowchartGraph {
         }
     }
 
-    public function __get(string $name): array|FlowchartGraphException
+    public function __get(string $name): array
     {
         if (!property_exists($this, $name)) {
             throw new FlowchartGraphException("Property $name does nor exist");

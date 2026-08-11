@@ -11,26 +11,49 @@ final readonly class Ast {
     public function __construct(public array $statements) {}
 }
 
-final readonly class InitStatement extends Node implements Statement {
-    public function __construct(public array $init) {}
-}
+final readonly class InitStatement extends Node implements Statement {}
 
-final readonly class EndStatement extends Node implements Statement {
-    public function __construct(public array $end) {}
-}
+final readonly class EndStatement extends Node implements Statement {}
 
 final readonly class InputStatement extends Node implements Statement {
-    public function __construct(public array $input) {}
+    public function __construct(
+        public string $type,
+        public string $varName
+    ) {}
 }
 
 final readonly class OutputStatement extends Node implements Statement {
-    public function __construct(public array $output) {}
+    public function __construct(
+        public string $type,
+        public string $value
+    ) {}
+}
+
+final readonly class AssignmentStatement extends Node implements Statement {
+    public function __construct(
+        public string $varName,
+        public BinaryExpression|InputStatement $expression
+    ) {}
+}
+
+final readonly class BinaryExpression implements Expression {
+    public function __construct(
+        public string $operator,
+        public Variable|Literal $left,
+        public Variable|Literal $right
+    ) {}
 }
 
 final readonly class Variable implements Expression {
-    public function __construct(public array $var) {}
+    public function __construct(
+        public string $type,
+        public string $value
+    ) {}
 }
 
 final readonly class Literal implements Expression {
-    public function __construct(public array $literal) {}
+    public function __construct(
+        public string $type,
+        public string $value
+    ) {}
 }
