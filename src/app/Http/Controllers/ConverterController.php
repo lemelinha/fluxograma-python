@@ -31,7 +31,7 @@ class ConverterController extends Controller
                 "data" => [
                     "label" => "Ler variável A",
                     "varName" => "a",
-                    "type" => "int"
+                    "varType" => "int"
                 ],
             ],
             [
@@ -41,7 +41,7 @@ class ConverterController extends Controller
                 "data" => [
                     "label" => "Ler variável B",
                     "varName" => "b",
-                    "type" => "int"
+                    "varType" => "int"
                 ],
             ],
             [

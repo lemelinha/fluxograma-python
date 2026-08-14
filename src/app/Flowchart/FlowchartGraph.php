@@ -25,7 +25,8 @@ final class FlowchartGraph {
             ];
 
             $this->outGoing[$edge["source"]][] = [
-                "target" => $edge["target"]
+                "target" => $edge["target"],
+                "label" => $edge["label"]??null
             ];
         }
     }
@@ -54,16 +55,16 @@ final class FlowchartGraph {
         $end = collect($this->nodes)->filter(
             fn(array $node) => $node["type"] == 'end'
         );
-        if ($end->count() != 1) {
-            throw new FlowchartGraphException("Exatly one end node expected");
+        if ($end->count() < 1) {
+            throw new FlowchartGraphException("More than one end node expected");
         }
         $endId = $end->first()['id'];
         if (
             array_key_exists($endId, $this->outGoing) ||
             !array_key_exists($endId, $this->inComing) ||
-            count($this->inComing[$endId]) != 1
+            count($this->inComing[$endId]) < 1
         ) {
-            throw new FlowchartGraphException("End node must have one entry edge and no one out edge");
+            throw new FlowchartGraphException("End node must have one or more entry edge and no one out edge");
         }
     }
 

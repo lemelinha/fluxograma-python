@@ -6,6 +6,7 @@ use App\Ast\{
     AssignmentStatement,
     Ast,
     BinaryExpression,
+    EndStatement,
     InitStatement,
     InputStatement,
     OutputStatement,
@@ -17,6 +18,8 @@ use App\Exceptions\FlowchartToAstException;
 use App\Flowchart\FlowchartGraph;
 
 class FlowchartToAstService {
+    protected array $variables = [];
+
     public function convert(FlowchartGraph $graph): Ast{
         $initNode = collect($graph->nodes)->filter(fn(array $n)=>$n["type"]=="init");
         $initId = $initNode->first()["id"];
@@ -35,17 +38,17 @@ class FlowchartToAstService {
         while ($nodeId !== null && !isset($visited[$nodeId])) {
             $visited[$nodeId] = true;
             $cur_node = $graph->nodes[$nodeId];
-            if ($cur_node["type"] == "end") break;
-
+            
             $statements[] = match ($cur_node["type"]) {
                 "init" => $this->AddInitStatement(),
                 "end" => $this->AddEndStatement(),
                 "input" => $this->AddInputStatement($cur_node),
                 "output" => $this->AddOutputStatement($cur_node),
                 "operation" => $this->AddOperation($cur_node),
-                default => dd($statements)
+                default => dd($cur_node["type"])
             };
 
+            if ($cur_node["type"] == "end") break;
             $nextId = $graph->outGoing[$nodeId][0]["target"];
             $nodeId = $nextId;
         }
@@ -57,20 +60,20 @@ class FlowchartToAstService {
         return new InitStatement();
     }
 
-    protected function AddEndStatement(): InitStatement {
-        return new InitStatement();
+    protected function AddEndStatement(): EndStatement {
+        return new EndStatement();
     }
 
     protected function AddInputStatement(array $node): AssignmentStatement|InputStatement {
         $data = $node["data"];
         $varName = $data["varName"];
-        $varType = $data["type"];
+        $varType = $data["varType"];
 
         $expression = new Literal("string", $data["label"]);
         $input = new InputStatement($varType, $expression);
 
         if (!isset($this->variables[$varName])) {
-            $this->variables[$varName] = new Variable($varType, $varName);
+            $this->variables[$varName] = new Variable($varName);
         }
 
         return new AssignmentStatement($varName, $input);
@@ -103,7 +106,7 @@ class FlowchartToAstService {
         };
 
         $right = match ($rightType) {
-            "var" => $this->variables[$rightValue]?? new FlowchartToAstException("Variable $rightValue not declared"),
+            "var" => $this->variables[$rightValue]?? throw new FlowchartToAstException("Variable $rightValue not declared"),
             default => throw new FlowchartToAstException("Invalid var type in operation")
         };
 
@@ -114,7 +117,7 @@ class FlowchartToAstService {
         );
 
         if (!isset($this->variables[$data["varName"]])) {
-            $this->variables[$data["varName"]] = new Variable("", $data["varName"]);
+            $this->variables[$data["varName"]] = new Variable($data["varName"]);
         }
 
         return new AssignmentStatement(
