@@ -18,13 +18,13 @@ final readonly class EndStatement extends Node implements Statement {}
 final readonly class InputStatement extends Node implements Expression {
     public function __construct(
         public string $type,
-        public Literal|Variable $expression
+        public Expression $expression
     ) {}
 }
 
 final readonly class OutputStatement extends Node implements Statement {
     public function __construct(
-        public Variable|Literal $value
+        public Expression $value
     ) {}
 }
 
@@ -38,8 +38,8 @@ final readonly class AssignmentStatement extends Node implements Statement {
 final readonly class BinaryExpression implements Expression {
     public function __construct(
         public string $operator,
-        public Variable|Literal $left,
-        public Variable|Literal $right
+        public Expression $left,
+        public Expression $right
     ) {}
 }
 
@@ -51,7 +51,6 @@ final readonly class Variable implements Expression {
 
 final readonly class Literal implements Expression {
     public function __construct(
-        public string $type,
         public string $value
     ) {}
 }

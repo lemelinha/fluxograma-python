@@ -69,7 +69,7 @@ class FlowchartToAstService {
         $varName = $data["varName"];
         $varType = $data["varType"];
 
-        $expression = new Literal("string", $data["label"]);
+        $expression = new Literal($data["label"]);
         $input = new InputStatement($varType, $expression);
 
         if (!isset($this->variables[$varName])) {
