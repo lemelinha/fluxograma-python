@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\CodeGenerator\Python\AstToPython;
 use Illuminate\Http\Request;
-use App\Services\FlowchartToAstService;
+use App\Flowchart\FlowchartToAst;
 use App\Flowchart\FlowchartGraph;
 
 class ConverterController extends Controller
 {
-    public function __construct(
-        protected FlowchartToAstService $FlowchartToAstService
-    ){}
-
     public function convert(Request $request, string $source, string $target)
     {
         // example of nodes and edges hardcode por enquanto
@@ -86,7 +83,7 @@ class ConverterController extends Controller
             case 'flowchart':
                 $graph = new FlowchartGraph($nodes, $edges);
                 $graph->validate();
-                $ast = $this->FlowchartToAstService->convert($graph);
+                $ast = FlowchartToAst::convert($graph);
                 dd($ast);
                 break;
             case "python":
