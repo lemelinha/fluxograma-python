@@ -2,15 +2,16 @@
 
 namespace App\CodeGenerator\Python;
 
-use App\Ast\AssignmentStatement;
 use App\Ast\Ast;
-use App\Ast\BinaryExpression;
-use App\Ast\EndStatement;
-use App\Ast\InitStatement;
-use App\Ast\InputExpression;
-use App\Ast\Literal;
-use App\Ast\OutputStatement;
-use App\Ast\Variable;
+use App\Ast\Expressions\BinaryExpression;
+use App\Ast\Expressions\InputExpression;
+use App\Ast\Expressions\Literal;
+use App\Ast\Expressions\Variable;
+use App\Ast\Statements\AssignmentStatement;
+use App\Ast\Statements\EndStatement;
+use App\Ast\Statements\InitStatement;
+use App\Ast\Statements\OutputStatement;
+use App\Ast\Statements\Statement;
 
 class AstToPython
 {

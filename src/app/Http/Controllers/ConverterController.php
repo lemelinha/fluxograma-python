@@ -21,9 +21,12 @@ class ConverterController extends Controller
             'edges' => 'required|array',
         ]);
 
+        $nodes = $validated['nodes'];
+        $edges = $validated['edges'];
+
         switch ($source) {
             case 'flowchart':
-                $graph = new FlowchartGraph($validated['nodes'], $validated['edges']);
+                $graph = new FlowchartGraph($nodes, $edges);
                 $graph->validate();
         
                 $ast = FlowchartToAst::convert($graph);
