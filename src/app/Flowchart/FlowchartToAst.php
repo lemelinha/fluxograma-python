@@ -82,7 +82,9 @@ class FlowchartToAst
         $outputValue = $data['expression']['value'];
 
         $expression = match ($outputType) {
-            'var' => new Variable($outputValue)
+            'var' => new Variable($outputValue),
+            'text' => new Literal($outputValue),
+            default => throw new FlowchartToAstException('Expression type inesperado')
         };
 
         return new OutputStatement($expression);
