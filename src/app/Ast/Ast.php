@@ -15,7 +15,7 @@ final readonly class InitStatement extends Node implements Statement {}
 
 final readonly class EndStatement extends Node implements Statement {}
 
-final readonly class InputStatement extends Node implements Expression {
+final readonly class InputExpression extends Node implements Expression {
     public function __construct(
         public string $type,
         public Expression $expression
@@ -45,12 +45,24 @@ final readonly class BinaryExpression implements Expression {
 
 final readonly class Variable implements Expression {
     public function __construct(
-        public string $varName
+        public string $value
     ) {}
+
+    public function __toString()
+    {
+        $value = $this->value;
+        return $value;
+    }
 }
 
 final readonly class Literal implements Expression {
     public function __construct(
         public string $value
     ) {}
+
+    public function __toString()
+    {
+        $value = $this->value;
+        return $value;
+    }
 }

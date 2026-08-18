@@ -8,7 +8,7 @@ use App\Ast\{
     BinaryExpression,
     EndStatement,
     InitStatement,
-    InputStatement,
+    InputExpression,
     OutputStatement,
     Literal,
     Statement,
@@ -40,10 +40,10 @@ class FlowchartToAst {
             $statements[] = match ($cur_node["type"]) {
                 "init" => self::AddInitStatement(),
                 "end" => self::AddEndStatement(),
-                "input" => self::AddInputStatement($cur_node),
+                "input" => self::AddInputExpression($cur_node),
                 "output" => self::AddOutputStatement($cur_node),
                 "operation" => self::AddOperation($cur_node),
-                default => dd($cur_node["type"])
+                default => throw new FlowchartToAstException('Invalid node type')
             };
 
             if ($cur_node["type"] == "end") break;
@@ -62,13 +62,13 @@ class FlowchartToAst {
         return new EndStatement();
     }
 
-    protected static function AddInputStatement(array $node): AssignmentStatement|InputStatement {
+    protected static function AddInputExpression(array $node): AssignmentStatement|InputExpression {
         $data = $node["data"];
         $varName = $data["varName"];
         $varType = $data["varType"];
 
         $expression = new Literal($data["label"]);
-        $input = new InputStatement($varType, $expression);
+        $input = new InputExpression($varType, $expression);
 
         return new AssignmentStatement($varName, $input);
     }

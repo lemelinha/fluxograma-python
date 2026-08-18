@@ -84,7 +84,8 @@ class ConverterController extends Controller
                 $graph = new FlowchartGraph($nodes, $edges);
                 $graph->validate();
                 $ast = FlowchartToAst::convert($graph);
-                dd($ast);
+                $code = AstToPython::convert($ast);
+                dd($code);
                 break;
             case "python":
                 break;
