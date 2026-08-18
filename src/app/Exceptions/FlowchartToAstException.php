@@ -13,9 +13,9 @@ class FlowchartToAstException extends Exception
      */
     public function report(): void
     {
-        $text = "Erro em converter o fluxograma para Ast: ";
-        
-        Log::error($text, ["exception" => $this]);
+        $text = 'Erro em converter o fluxograma para Ast: ';
+
+        Log::error($text, ['exception' => $this]);
     }
 
     /**
@@ -24,8 +24,8 @@ class FlowchartToAstException extends Exception
     public function render(): JsonResponse
     {
         return response()->json([
-            "status" => 'error',
-            "message" => $this->getMessage()
+            'status' => 'error',
+            'message' => $this->getMessage(),
         ], 422);
     }
 }

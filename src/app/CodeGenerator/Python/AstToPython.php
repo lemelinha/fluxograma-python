@@ -12,15 +12,19 @@ use App\Ast\Literal;
 use App\Ast\OutputStatement;
 use App\Ast\Variable;
 
-class AstToPython {
-    public static function convert(Ast $ast): array {
+class AstToPython
+{
+    public static function convert(Ast $ast): array
+    {
         $code = [];
         $statements = $ast->statements;
-        
-        foreach ($statements as $statement) {
-            if ($statement instanceof InitStatement || $statement instanceof EndStatement) continue;
 
-            $line = "";
+        foreach ($statements as $statement) {
+            if ($statement instanceof InitStatement || $statement instanceof EndStatement) {
+                continue;
+            }
+
+            $line = '';
             if ($statement instanceof AssignmentStatement) {
                 $line = self::AssignmentHandler($statement);
             }
@@ -30,37 +34,40 @@ class AstToPython {
 
             $code[] = $line;
         }
+
         return $code;
     }
 
-    protected static function AssignmentHandler(AssignmentStatement $assignment): string {
+    protected static function AssignmentHandler(AssignmentStatement $assignment): string
+    {
         $varName = $assignment->varName;
         $expression = $assignment->expression;
-        
+
         $line = "$varName = ";
         if (
             $expression instanceof Literal ||
             $expression instanceof Variable
         ) {
             $line .= $expression;
-        }
-        elseif ($expression instanceof InputExpression) {
+        } elseif ($expression instanceof InputExpression) {
             $line .= self::InputPrinter($expression);
-        }
-        elseif ($expression instanceof BinaryExpression) {
+        } elseif ($expression instanceof BinaryExpression) {
             $line .= self::BinaryExpressionPrinter($expression);
         }
 
         return $line;
     }
 
-    protected static function InputPrinter(InputExpression $input): string {
+    protected static function InputPrinter(InputExpression $input): string
+    {
         $inputType = $input->type;
         $inputExpression = $input->expression;
+
         return "$inputType(input('$inputExpression'))";
     }
 
-    protected static function OutputPrinter(OutputStatement $output): string {
+    protected static function OutputPrinter(OutputStatement $output): string
+    {
         $line = '';
 
         $outputValue = $output->value;
@@ -69,16 +76,17 @@ class AstToPython {
             $outputValue instanceof Variable
         ) {
             $line .= "print($outputValue)";
-        } 
+        }
 
         return $line;
     }
 
-    protected static function BinaryExpressionPrinter(BinaryExpression $expression): string {
+    protected static function BinaryExpressionPrinter(BinaryExpression $expression): string
+    {
         $line = '';
         $left = $expression->left;
         $right = $expression->right;
-        
+
         if (
             $left instanceof Variable ||
             $left instanceof Literal

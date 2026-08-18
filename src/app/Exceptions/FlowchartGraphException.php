@@ -13,9 +13,9 @@ class FlowchartGraphException extends Exception
      */
     public function report(): void
     {
-        $text = "Erro em gerar Grafo a partir do fluxograma: ";
-        
-        Log::error($text, ["exception" => $this]);
+        $text = 'Erro em gerar Grafo a partir do fluxograma: ';
+
+        Log::error($text, ['exception' => $this]);
     }
 
     /**
@@ -24,8 +24,8 @@ class FlowchartGraphException extends Exception
     public function render(): JsonResponse
     {
         return response()->json([
-            "status" => 'error',
-            "message" => $this->getMessage()
+            'status' => 'error',
+            'message' => $this->getMessage(),
         ], 422);
     }
 }
