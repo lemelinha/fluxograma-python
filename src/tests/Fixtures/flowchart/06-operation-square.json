@@ -1,0 +1,74 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "x",
+                "varType": "float",
+                "label": "Digite um número"
+            }
+        },
+        {
+            "id": 3,
+            "type": "operation",
+            "data": {
+                "varName": "quadrado",
+                "operator": "*",
+                "left": {
+                    "type": "var",
+                    "value": "x"
+                },
+                "right": {
+                    "type": "var",
+                    "value": "x"
+                }
+            }
+        },
+        {
+            "id": 4,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "quadrado"
+                }
+            }
+        },
+        {
+            "id": 5,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": null
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "label": null
+        }
+    ],
+    "expected": [
+        "x = float(input('Digite um número'))",
+        "quadrado = (x * x)",
+        "print(quadrado)"
+    ]
+}

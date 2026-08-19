@@ -28,7 +28,7 @@ class ConverterController extends Controller
             case 'flowchart':
                 $graph = new FlowchartGraph($nodes, $edges);
                 $graph->validate();
-        
+
                 $ast = FlowchartToAst::convert($graph);
                 break;
             case 'python':
@@ -58,7 +58,6 @@ class ConverterController extends Controller
                     'message' => 'Algo deu errado!',
                 ], 400);
         }
-
 
         return response()->json([
             'status' => 'ok',

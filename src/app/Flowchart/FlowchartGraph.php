@@ -14,7 +14,7 @@ final class FlowchartGraph
 
     public function __construct(array $nodes, array $edges)
     {
-        // criar indeces do grafo
+        // criar nodes do grafo
         foreach ($nodes as $node) {
             if (!isset($node['id'], $node['type'])) {
                 throw new FlowchartGraphException('Node deve ter um ID e um TYPE');
@@ -25,7 +25,7 @@ final class FlowchartGraph
             $this->nodes[$node['id']] = $node;
         }
 
-        // criar as arestas direcionadas
+        // criar as arestas do grafo
         foreach ($edges as $edge) {
             if (!isset($edge['source'], $edge['target'])) {
                 throw new FlowchartGraphException('Edge deve ter SOURCE e TARGET');
@@ -41,7 +41,7 @@ final class FlowchartGraph
         }
     }
 
-    // validar fluxos lógicos do fluxograma
+    // validar fluxograma
     public function validate(): void
     {
         $supportedTypes = ['init', 'end', 'input', 'output', 'operation'];

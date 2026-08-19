@@ -4,6 +4,7 @@ namespace App\CodeGenerator\Python;
 
 use App\Ast\Ast;
 use App\Ast\Expressions\BinaryExpression;
+use App\Ast\Expressions\Expression;
 use App\Ast\Expressions\InputExpression;
 use App\Ast\Expressions\Literal;
 use App\Ast\Expressions\Variable;
@@ -11,7 +12,7 @@ use App\Ast\Statements\AssignmentStatement;
 use App\Ast\Statements\EndStatement;
 use App\Ast\Statements\InitStatement;
 use App\Ast\Statements\OutputStatement;
-use App\Ast\Statements\Statement;
+use RuntimeException;
 
 class AstToPython
 {
@@ -72,11 +73,10 @@ class AstToPython
         $line = '';
 
         $outputValue = $output->value;
-        if (
-            $outputValue instanceof Literal ||
-            $outputValue instanceof Variable
-        ) {
+        if ($outputValue instanceof Variable) {
             $line .= "print($outputValue)";
+        } else if ($outputValue instanceof Literal) {
+            $line .= "print('$outputValue')";
         }
 
         return $line;
@@ -84,30 +84,26 @@ class AstToPython
 
     protected static function BinaryExpressionPrinter(BinaryExpression $expression): string
     {
-        $line = '';
-        $left = $expression->left;
-        $right = $expression->right;
+        $left = self::printOperand($expression->left);
+        $right = self::printOperand($expression->right);
 
-        if (
-            $left instanceof Variable ||
-            $left instanceof Literal
-        ) {
-            $line .= "($left)";
-        } elseif ($left instanceof InputExpression) {
-            $line .= self::InputPrinter($left);
+        return "($left {$expression->operator} $right)";
+    }
+
+    protected static function printOperand(Expression $expression): string
+    {
+        if ($expression instanceof BinaryExpression) {
+            return self::BinaryExpressionPrinter($expression);
         }
 
-        $line .= " $expression->operator ";
-
-        if (
-            $right instanceof Variable ||
-            $right instanceof Literal
-        ) {
-            $line .= "($right)";
-        } elseif ($right instanceof InputExpression) {
-            $line .= self::InputPrinter($right);
+        if ($expression instanceof Variable || $expression instanceof Literal) {
+            return (string) $expression;
         }
 
-        return $line;
+        if ($expression instanceof InputExpression) {
+            return self::InputPrinter($expression);
+        }
+
+        throw new RuntimeException('Unsupported expression in binary operation');
     }
 }

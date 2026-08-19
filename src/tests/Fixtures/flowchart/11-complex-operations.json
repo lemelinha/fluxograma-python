@@ -1,0 +1,158 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "a",
+                "varType": "int",
+                "label": "Digite o valor de a"
+            }
+        },
+        {
+            "id": 3,
+            "type": "input",
+            "data": {
+                "varName": "b",
+                "varType": "int",
+                "label": "Digite o valor de b"
+            }
+        },
+        {
+            "id": 4,
+            "type": "input",
+            "data": {
+                "varName": "c",
+                "varType": "int",
+                "label": "Digite o valor de c"
+            }
+        },
+        {
+            "id": 5,
+            "type": "operation",
+            "data": {
+                "varName": "total",
+                "operator": "+",
+                "left": {
+                    "type": "binary",
+                    "operator": "+",
+                    "left": {
+                        "type": "var",
+                        "value": "a"
+                    },
+                    "right": {
+                        "type": "var",
+                        "value": "b"
+                    }
+                },
+                "right": {
+                    "type": "var",
+                    "value": "c"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "type": "operation",
+            "data": {
+                "varName": "resultado",
+                "operator": "*",
+                "left": {
+                    "type": "binary",
+                    "operator": "+",
+                    "left": {
+                        "type": "var",
+                        "value": "a"
+                    },
+                    "right": {
+                        "type": "literal",
+                        "value": "2"
+                    }
+                },
+                "right": {
+                    "type": "var",
+                    "value": "b"
+                }
+            }
+        },
+        {
+            "id": 7,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "total"
+                }
+            }
+        },
+        {
+            "id": 8,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "resultado"
+                }
+            }
+        },
+        {
+            "id": 9,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": null
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "label": null
+        },
+        {
+            "source": 5,
+            "target": 6,
+            "label": null
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "label": null
+        },
+        {
+            "source": 7,
+            "target": 8,
+            "label": null
+        },
+        {
+            "source": 8,
+            "target": 9,
+            "label": null
+        }
+    ],
+    "expected": [
+        "a = int(input('Digite o valor de a'))",
+        "b = int(input('Digite o valor de b'))",
+        "c = int(input('Digite o valor de c'))",
+        "total = ((a + b) + c)",
+        "resultado = ((a + 2) * b)",
+        "print(total)",
+        "print(resultado)"
+    ]
+}

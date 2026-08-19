@@ -1,0 +1,126 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "n1",
+                "varType": "int",
+                "label": "Digite o primeiro número"
+            }
+        },
+        {
+            "id": 3,
+            "type": "input",
+            "data": {
+                "varName": "n2",
+                "varType": "int",
+                "label": "Digite o segundo número"
+            }
+        },
+        {
+            "id": 4,
+            "type": "input",
+            "data": {
+                "varName": "n3",
+                "varType": "int",
+                "label": "Digite o terceiro número"
+            }
+        },
+        {
+            "id": 5,
+            "type": "operation",
+            "data": {
+                "varName": "total",
+                "operator": "+",
+                "left": {
+                    "type": "var",
+                    "value": "n1"
+                },
+                "right": {
+                    "type": "var",
+                    "value": "n2"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "type": "operation",
+            "data": {
+                "varName": "total",
+                "operator": "+",
+                "left": {
+                    "type": "var",
+                    "value": "total"
+                },
+                "right": {
+                    "type": "var",
+                    "value": "n3"
+                }
+            }
+        },
+        {
+            "id": 7,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "total"
+                }
+            }
+        },
+        {
+            "id": 8,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": null
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "label": null
+        },
+        {
+            "source": 5,
+            "target": 6,
+            "label": null
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "label": null
+        },
+        {
+            "source": 7,
+            "target": 8,
+            "label": null
+        }
+    ],
+    "expected": [
+        "n1 = int(input('Digite o primeiro número'))",
+        "n2 = int(input('Digite o segundo número'))",
+        "n3 = int(input('Digite o terceiro número'))",
+        "total = (n1 + n2)",
+        "total = (total + n3)",
+        "print(total)"
+    ]
+}

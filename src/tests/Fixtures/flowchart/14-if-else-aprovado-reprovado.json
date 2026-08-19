@@ -1,0 +1,154 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "n1",
+                "varType": "float",
+                "label": "Digite a primeira nota"
+            }
+        },
+        {
+            "id": 3,
+            "type": "input",
+            "data": {
+                "varName": "n2",
+                "varType": "float",
+                "label": "Digite a segunda nota"
+            }
+        },
+        {
+            "id": 4,
+            "type": "operation",
+            "data": {
+                "varName": "media",
+                "operator": "+",
+                "left": {
+                    "type": "var",
+                    "value": "n1"
+                },
+                "right": {
+                    "type": "var",
+                    "value": "n2"
+                }
+            }
+        },
+        {
+            "id": 5,
+            "type": "operation",
+            "data": {
+                "varName": "media",
+                "operator": "/",
+                "left": {
+                    "type": "var",
+                    "value": "media"
+                },
+                "right": {
+                    "type": "literal",
+                    "value": "2"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "type": "decision",
+            "data": {
+                "expression": {
+                    "type": "binary",
+                    "operator": ">=",
+                    "left": {
+                        "type": "var",
+                        "value": "media"
+                    },
+                    "right": {
+                        "type": "literal",
+                        "value": "6"
+                    }
+                }
+            }
+        },
+        {
+            "id": 7,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "Aprovado"
+                }
+            }
+        },
+        {
+            "id": 8,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "Reprovado"
+                }
+            }
+        },
+        {
+            "id": 9,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": null
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "label": null
+        },
+        {
+            "source": 5,
+            "target": 6,
+            "label": null
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "label": "sim"
+        },
+        {
+            "source": 6,
+            "target": 8,
+            "label": "nao"
+        },
+        {
+            "source": 7,
+            "target": 9,
+            "label": null
+        },
+        {
+            "source": 8,
+            "target": 9,
+            "label": null
+        }
+    ],
+    "expected": [
+        "media = ((n1 + n2) / 2)",
+        "if (media >= 6):",
+        "    print('Aprovado')",
+        "else:",
+        "    print('Reprovado')"
+    ]
+}

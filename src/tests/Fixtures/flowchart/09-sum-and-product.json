@@ -1,0 +1,159 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "a",
+                "varType": "int",
+                "label": "Digite o primeiro número"
+            }
+        },
+        {
+            "id": 3,
+            "type": "input",
+            "data": {
+                "varName": "b",
+                "varType": "int",
+                "label": "Digite o segundo número"
+            }
+        },
+        {
+            "id": 4,
+            "type": "operation",
+            "data": {
+                "varName": "soma",
+                "operator": "+",
+                "left": {
+                    "type": "var",
+                    "value": "a"
+                },
+                "right": {
+                    "type": "var",
+                    "value": "b"
+                }
+            }
+        },
+        {
+            "id": 5,
+            "type": "operation",
+            "data": {
+                "varName": "produto",
+                "operator": "*",
+                "left": {
+                    "type": "var",
+                    "value": "a"
+                },
+                "right": {
+                    "type": "var",
+                    "value": "b"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "Soma:"
+                }
+            }
+        },
+        {
+            "id": 7,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "soma"
+                }
+            }
+        },
+        {
+            "id": 8,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "Produto:"
+                }
+            }
+        },
+        {
+            "id": 9,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "produto"
+                }
+            }
+        },
+        {
+            "id": 10,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": null
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "label": null
+        },
+        {
+            "source": 5,
+            "target": 6,
+            "label": null
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "label": null
+        },
+        {
+            "source": 7,
+            "target": 8,
+            "label": null
+        },
+        {
+            "source": 8,
+            "target": 9,
+            "label": null
+        },
+        {
+            "source": 9,
+            "target": 10,
+            "label": null
+        }
+    ],
+    "expected": [
+        "a = int(input('Digite o primeiro número'))",
+        "b = int(input('Digite o segundo número'))",
+        "soma = (a + b)",
+        "produto = (a * b)",
+        "print('Soma:')",
+        "print(soma)",
+        "print('Produto:')",
+        "print(produto)"
+    ]
+}

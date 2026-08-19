@@ -4,6 +4,7 @@ namespace App\Flowchart;
 
 use App\Ast\Ast;
 use App\Ast\Expressions\BinaryExpression;
+use App\Ast\Expressions\Expression;
 use App\Ast\Expressions\InputExpression;
 use App\Ast\Expressions\Literal;
 use App\Ast\Expressions\Variable;
@@ -56,15 +57,18 @@ class FlowchartToAst
         return $statements;
     }
 
-    protected static function AddInitStatement(): InitStatement{
+    protected static function AddInitStatement(): InitStatement
+    {
         return new InitStatement;
     }
 
-    protected static function AddEndStatement(): EndStatement {
+    protected static function AddEndStatement(): EndStatement
+    {
         return new EndStatement;
     }
 
-    protected static function AddInputExpression(array $node): AssignmentStatement {
+    protected static function AddInputExpression(array $node): AssignmentStatement
+    {
         $data = $node['data'];
         $varName = $data['varName'];
         $varType = $data['varType'];
@@ -95,30 +99,41 @@ class FlowchartToAst
     {
         $data = $node['data'];
 
-        $leftType = $data['left']['type'];
-        $leftValue = $data['left']['value'];
-        $rightType = $data['right']['type'];
-        $rightValue = $data['right']['value'];
-
-        $left = match ($leftType) {
-            'var' => new Variable($leftValue),
-            default => throw new FlowchartToAstException('Invalid var type in operation')
-        };
-
-        $right = match ($rightType) {
-            'var' => new Variable($rightValue),
-            default => throw new FlowchartToAstException('Invalid var type in operation')
-        };
-
         $binaryExpression = new BinaryExpression(
             $data['operator'],
-            $left,
-            $right
+            self::parseOperand($data['left']),
+            self::parseOperand($data['right'])
         );
 
         return new AssignmentStatement(
             $data['varName'],
             $binaryExpression
         );
+    }
+
+    protected static function parseOperand(array $operand): Expression
+    {
+        $type = $operand['type'];
+
+        if ($type == 'var' && isset($operand['value'])) {
+            return new Variable($operand['value']);
+        }
+
+        if ($type == 'literal' && isset($operand['value'])) {
+            return new Literal((string) $operand['value']);
+        }
+
+        if (
+            $type == 'binary'
+            && isset($operand['operator'], $operand['left'], $operand['right'])
+        ) {
+            return new BinaryExpression(
+                $operand['operator'],
+                self::parseOperand($operand['left']),
+                self::parseOperand($operand['right'])
+            );
+        }
+
+        throw new FlowchartToAstException('Operador Binário Invalido');
     }
 }

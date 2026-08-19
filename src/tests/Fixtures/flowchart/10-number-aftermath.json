@@ -1,0 +1,176 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "n",
+                "varType": "int",
+                "label": "Digite um número"
+            }
+        },
+        {
+            "id": 3,
+            "type": "operation",
+            "data": {
+                "varName": "quadrado",
+                "operator": "*",
+                "left": {
+                    "type": "var",
+                    "value": "n"
+                },
+                "right": {
+                    "type": "var",
+                    "value": "n"
+                }
+            }
+        },
+        {
+            "id": 4,
+            "type": "operation",
+            "data": {
+                "varName": "cubo",
+                "operator": "*",
+                "left": {
+                    "type": "var",
+                    "value": "quadrado"
+                },
+                "right": {
+                    "type": "var",
+                    "value": "n"
+                }
+            }
+        },
+        {
+            "id": 5,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "Número digitado:"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "n"
+                }
+            }
+        },
+        {
+            "id": 7,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "Quadrado:"
+                }
+            }
+        },
+        {
+            "id": 8,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "quadrado"
+                }
+            }
+        },
+        {
+            "id": 9,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "Cubo:"
+                }
+            }
+        },
+        {
+            "id": 10,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "cubo"
+                }
+            }
+        },
+        {
+            "id": 11,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": null
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "label": null
+        },
+        {
+            "source": 5,
+            "target": 6,
+            "label": null
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "label": null
+        },
+        {
+            "source": 7,
+            "target": 8,
+            "label": null
+        },
+        {
+            "source": 8,
+            "target": 9,
+            "label": null
+        },
+        {
+            "source": 9,
+            "target": 10,
+            "label": null
+        },
+        {
+            "source": 10,
+            "target": 11,
+            "label": null
+        }
+    ],
+    "expected": [
+        "n = int(input('Digite um número'))",
+        "quadrado = (n * n)",
+        "cubo = (quadrado * n)",
+        "print('Número digitado:')",
+        "print(n)",
+        "print('Quadrado:')",
+        "print(quadrado)",
+        "print('Cubo:')",
+        "print(cubo)"
+    ]
+}

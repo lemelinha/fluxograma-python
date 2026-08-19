@@ -1,0 +1,157 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "a",
+                "varType": "int",
+                "label": "Digite o primeiro número"
+            }
+        },
+        {
+            "id": 3,
+            "type": "input",
+            "data": {
+                "varName": "b",
+                "varType": "int",
+                "label": "Digite o segundo número"
+            }
+        },
+        {
+            "id": 4,
+            "type": "decision",
+            "data": {
+                "expression": {
+                    "type": "binary",
+                    "operator": ">",
+                    "left": {
+                        "type": "var",
+                        "value": "a"
+                    },
+                    "right": {
+                        "type": "var",
+                        "value": "b"
+                    }
+                }
+            }
+        },
+        {
+            "id": 5,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "a maior que b"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "type": "decision",
+            "data": {
+                "expression": {
+                    "type": "binary",
+                    "operator": "==",
+                    "left": {
+                        "type": "var",
+                        "value": "a"
+                    },
+                    "right": {
+                        "type": "var",
+                        "value": "b"
+                    }
+                }
+            }
+        },
+        {
+            "id": 7,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "a igual a b"
+                }
+            }
+        },
+        {
+            "id": 8,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "a menor que b"
+                }
+            }
+        },
+        {
+            "id": 9,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": null
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "label": "sim"
+        },
+        {
+            "source": 4,
+            "target": 6,
+            "label": "nao"
+        },
+        {
+            "source": 5,
+            "target": 9,
+            "label": null
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "label": "sim"
+        },
+        {
+            "source": 6,
+            "target": 8,
+            "label": "nao"
+        },
+        {
+            "source": 7,
+            "target": 9,
+            "label": null
+        },
+        {
+            "source": 8,
+            "target": 9,
+            "label": null
+        }
+    ],
+    "expected": [
+        "if (a > b):",
+        "    print('a maior que b')",
+        "else:",
+        "    if (a == b):",
+        "        print('a igual a b')",
+        "    else:",
+        "        print('a menor que b')"
+    ]
+}

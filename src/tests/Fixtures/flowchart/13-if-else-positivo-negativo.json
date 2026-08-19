@@ -1,0 +1,97 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "n",
+                "varType": "int",
+                "label": "Digite um número"
+            }
+        },
+        {
+            "id": 3,
+            "type": "decision",
+            "data": {
+                "expression": {
+                    "type": "binary",
+                    "operator": ">",
+                    "left": {
+                        "type": "var",
+                        "value": "n"
+                    },
+                    "right": {
+                        "type": "literal",
+                        "value": "0"
+                    }
+                }
+            }
+        },
+        {
+            "id": 4,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "positivo"
+                }
+            }
+        },
+        {
+            "id": 5,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "negativo"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": "sim"
+        },
+        {
+            "source": 3,
+            "target": 5,
+            "label": "nao"
+        },
+        {
+            "source": 4,
+            "target": 6,
+            "label": null
+        },
+        {
+            "source": 5,
+            "target": 6,
+            "label": null
+        }
+    ],
+    "expected": [
+        "if (n > 0):",
+        "    print('positivo')",
+        "else:",
+        "    print('negativo')"
+    ]
+}

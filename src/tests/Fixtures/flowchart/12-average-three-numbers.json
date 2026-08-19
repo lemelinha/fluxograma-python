@@ -1,0 +1,134 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "input",
+            "data": {
+                "varName": "n1",
+                "varType": "float",
+                "label": "Digite a primeira nota"
+            }
+        },
+        {
+            "id": 3,
+            "type": "input",
+            "data": {
+                "varName": "n2",
+                "varType": "float",
+                "label": "Digite a segunda nota"
+            }
+        },
+        {
+            "id": 4,
+            "type": "input",
+            "data": {
+                "varName": "n3",
+                "varType": "float",
+                "label": "Digite a terceira nota"
+            }
+        },
+        {
+            "id": 5,
+            "type": "operation",
+            "data": {
+                "varName": "soma",
+                "operator": "+",
+                "left": {
+                    "type": "binary",
+                    "operator": "+",
+                    "left": {
+                        "type": "var",
+                        "value": "n1"
+                    },
+                    "right": {
+                        "type": "var",
+                        "value": "n2"
+                    }
+                },
+                "right": {
+                    "type": "var",
+                    "value": "n3"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "type": "operation",
+            "data": {
+                "varName": "media",
+                "operator": "/",
+                "left": {
+                    "type": "var",
+                    "value": "soma"
+                },
+                "right": {
+                    "type": "literal",
+                    "value": "3"
+                }
+            }
+        },
+        {
+            "id": 7,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "var",
+                    "value": "media"
+                }
+            }
+        },
+        {
+            "id": 8,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "label": null
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "label": null
+        },
+        {
+            "source": 5,
+            "target": 6,
+            "label": null
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "label": null
+        },
+        {
+            "source": 7,
+            "target": 8,
+            "label": null
+        }
+    ],
+    "expected": [
+        "n1 = float(input('Digite a primeira nota'))",
+        "n2 = float(input('Digite a segunda nota'))",
+        "n3 = float(input('Digite a terceira nota'))",
+        "soma = ((n1 + n2) + n3)",
+        "media = (soma / 3)",
+        "print(media)"
+    ]
+}

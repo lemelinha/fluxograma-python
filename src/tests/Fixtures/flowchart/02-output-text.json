@@ -1,0 +1,37 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "type": "init"
+        },
+        {
+            "id": 2,
+            "type": "output",
+            "data": {
+                "expression": {
+                    "type": "text",
+                    "value": "Olá, mundo!"
+                }
+            }
+        },
+        {
+            "id": 3,
+            "type": "end"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 2,
+            "label": null
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "label": null
+        }
+    ],
+    "expected": [
+        "print('Olá, mundo!')"
+    ]
+}

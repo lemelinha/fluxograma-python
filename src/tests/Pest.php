@@ -44,6 +44,13 @@ expect()->extend('toBeOne', function () {
 |
 */
 
+function loadFixture(string $name): array
+{
+    $path = __DIR__."/Fixtures/flowchart/$name.json";
+
+    return json_decode(file_get_contents($path), true);
+}
+
 function something()
 {
     // ..
