@@ -146,6 +146,8 @@
         }
     ],
     "expected": [
+        "a = int(input('Digite o primeiro número'))",
+        "b = int(input('Digite o segunda número'))",
         "if (a > b):",
         "    print('a maior que b')",
         "else:",

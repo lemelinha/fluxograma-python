@@ -89,6 +89,7 @@
         }
     ],
     "expected": [
+        "n = int(input('Digite um número'))",
         "if (n > 0):",
         "    print('positivo')",
         "else:",
