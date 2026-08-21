@@ -12,7 +12,7 @@ use App\Ast\Statements\AssignmentStatement;
 use App\Ast\Statements\EndStatement;
 use App\Ast\Statements\InitStatement;
 use App\Ast\Statements\OutputStatement;
-use RuntimeException;
+use App\Exceptions\AstToPythonException;
 
 class AstToPython
 {
@@ -104,6 +104,6 @@ class AstToPython
             return self::InputPrinter($expression);
         }
 
-        throw new RuntimeException('Unsupported expression in binary operation');
+        throw new AstToPythonException('Expressão binária inválida');
     }
 }
