@@ -2,20 +2,20 @@
 
 use App\CodeGenerator\Python\AstToPython;
 use App\Flowchart\FlowchartGraph;
-use App\Flowchart\FlowchartToAst;
+use App\Flowchart\FlowchartGraphToAst;
 
 function convertFixture(array $data): array
 {
     $graph = new FlowchartGraph($data['nodes'], $data['edges']);
     $graph->validate();
 
-    return AstToPython::convert(FlowchartToAst::convert($graph));
+    return AstToPython::convert(FlowchartGraphToAst::convert($graph));
 }
 
 dataset('fixtures', function () {
     $cases = [];
 
-    foreach (glob(__DIR__.'/../Fixtures/flowchart/*.json') as $file) {
+    foreach (glob(__DIR__.'/../Fixtures/flowchart/codeConversionTests/*.json') as $file) {
         $cases[basename($file, '.json')] = [json_decode(file_get_contents($file), true)];
     }
 

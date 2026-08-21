@@ -15,7 +15,7 @@ use App\Ast\Statements\OutputStatement;
 use App\Ast\Statements\Statement;
 use App\Exceptions\FlowchartToAstException;
 
-class FlowchartToAst
+class FlowchartGraphToAst
 {
     public static function convert(FlowchartGraph $graph): Ast
     {

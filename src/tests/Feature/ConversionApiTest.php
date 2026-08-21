@@ -6,10 +6,12 @@ function convertUri(string $path, array $data): string
 }
 
 it('converte fluxograma em Python via API', function () {
-    $this->getJson(convertUri('/flowchart/to/python', loadFixture('07-sum-two-numbers')))
-        ->assertOk()
-        ->assertJsonPath('status', 'ok')
-        ->assertJsonPath('code.2', 'soma = (a + b)');
+    $data = loadFixture('07-sum-two-numbers');
+    $result = $this->post('/flowchart/to/python', $data);
+    
+    $result->assertOk()
+        ->assertJsonPath('status', 'ok');
+    $result['code']->toBe($data['code']);
 });
 
 it('converte operações complexas via API', function () {

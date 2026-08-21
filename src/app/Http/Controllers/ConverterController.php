@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CodeGenerator\Python\AstToPython;
 use App\Flowchart\FlowchartGraph;
-use App\Flowchart\FlowchartToAst;
+use App\Flowchart\FlowchartGraphToAst;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,6 +21,8 @@ class ConverterController extends Controller
             'edges' => 'required|array',
         ]);
 
+        //$json = json_decode(file_get_contents(__DIR__.'/../../../tests/Fixtures/flowchart/codeConversionTests/11-comples-operations.json'), true);
+
         $nodes = $validated['nodes'];
         $edges = $validated['edges'];
 
@@ -29,7 +31,7 @@ class ConverterController extends Controller
                 $graph = new FlowchartGraph($nodes, $edges);
                 $graph->validate();
 
-                $ast = FlowchartToAst::convert($graph);
+                $ast = FlowchartGraphToAst::convert($graph);
                 break;
             case 'python':
                 return response()->json([
