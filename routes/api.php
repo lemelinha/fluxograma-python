@@ -1,10 +1,7 @@
 <?php
 
-use App\Http\Controllers\ConverterController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ConvertController;
 
-$languages = ['flowchart', 'python'];
-
-Route::any('/{source}/to/{target}', [ConverterController::class, 'convert'])
-    ->whereIn('source', $languages)
-    ->whereIn('target', $languages);
+Route::get('/convert/{sourceLanguage}/to/{targetLanguage}', [ConvertController::class, 'convert']);

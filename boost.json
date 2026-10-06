@@ -9,7 +9,10 @@
     "sail": false,
     "skills": [
         "infer-conventions",
+        "deploying-to-cloud",
         "laravel-best-practices",
-        "pest-testing"
+        "testing-best-practices",
+        "wayfinder-development",
+        "tailwindcss-development"
     ]
 }

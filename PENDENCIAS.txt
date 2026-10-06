@@ -1,0 +1,81 @@
+PENDENCIAS DA API DE TRADUCAO (levantado por leitura do codigo em 06/10/2026)
+==========================================================================
+
+FATAIS (quebram a execucao)
+---------------------------
+[ ] 1. Graph::$nodes sem inicializacao (app/Convert/Graph.php:17).
+      Declarado como "public array $nodes;" sem valor padrao. A primeira
+      insercao em FlowchartGraph::toGraph() lanca
+      "Error: must not be accessed before initialization".
+      => Inicializar com [].
+
+[ ] 2. Graph::toAst() nao existe (chamado em ConvertController.php).
+      O metodo chamado no controller nao foi implementado na classe Graph.
+      => Implementar a travessia grafo -> AST (linear + 2 ramos na decisao).
+
+[ ] 3. validate(): bool com corpo vazio (app/Convert/Graph.php:19).
+      Funcao com retorno tipado bool que nao retorna nada lanca TypeError
+      se for chamada.
+      => Definir o contrato: sugerido retornar a lista de violacoes
+         (array de {code, message, details}); vazio = valido.
+
+[ ] 4. catch (Exception) sem import (app/Http/Controllers/ConvertController.php:81).
+      Dentro do namespace App\Http\Controllers, "Exception" resolve para
+      App\Http\Controllers\Exception, que nao existe: o catch nunca captura
+      nada (codigo morto).
+      => Importar (use Exception;) ou, melhor, capturar excecao de dominio.
+
+LOGICOS (nao quebram, corrompem em silencio)
+--------------------------------------------
+[ ] 5. "|" em vez de "||" na checagem da aresta (app/Convert/FlowchartGraph.php:31).
+      Funciona por coincidencia com booleanos, sem curto-circuito.
+      => Trocar por ||.
+
+[ ] 6. target da aresta nunca validado (app/Convert/FlowchartGraph.php:29-53).
+      So o source e conferido; aresta para no inexistente vira referencia
+      pendurada em targets[].
+      => Validar os dois lados (ex.: INVALID_EDGE_TARGET_ID).
+
+[ ] 7. IDs de no duplicados sobrescrevem em silencio (app/Convert/FlowchartGraph.php:26).
+      => Detectar e retornar erro (ex.: DUPLICATE_NODE_ID).
+
+[ ] 8. Classes da AST descartam os dados (app/Convert/Ast/*.php).
+      Construtores recebem parametros mas nao os guardam (falta promocao
+      ou atribuicao a propriedades).
+      => Promover propriedades e definir formato unico de expressao usado
+         por toAst() e pelos emissores Python/JS.
+
+[ ] 9. Descasamento de formato de expressao.
+      O controller monta expression: ['type' => 'var', 'value' => ...],
+      mas Output espera string $text e Assignment espera string|Input.
+      => Unificar o formato antes de implementar os emissores.
+
+[ ] 10. label da aresta ignorado.
+      Para o if/else, o ramo verdadeiro/falso provavelmente vira pelo label;
+      hoje ele nao e lido nem validado.
+      => Definir convencao de labels (ex.: "true"/"false") e validar na decisao.
+
+CONTRATO DA API
+---------------
+[ ] 11. Rota ainda e GET sem corpo (routes/api.php:7); validacao de
+      nodes/edges comentada (ConvertController.php:27-30); fixture hardcoded
+      (linhas 32-77); resposta placeholder ['code' => 'codigo'] (linha 85).
+      => Migrar para POST com {nodes, edges}, religar validacao via
+         FormRequest/$request->validate() e gerar codigo real.
+
+[ ] 12. dd($th) no catch (ConvertController.php:82).
+      Interrompe a requisicao e quebra o contrato JSON da API.
+      => Retornar errorResponse com code apropriado.
+
+HIGIENE
+-------
+[ ] 13. Typos nos codes: INVALID_SOURCE_LAGUANGE e INVALID_TARGET_LAGUANGE
+      ("laguange"). => Renomear para ..._LANGUAGE (atenção: muda contrato
+      com o frontend; versionar/comunicar).
+
+[ ] 14. ApiResponse (HTTP) usado dentro de FlowchartGraph (dominio).
+      Amarra a logica de grafo ao Laravel HTTP.
+      => Dominio lanca excecao tipada; controller/handler traduz para HTTP.
+
+[ ] 15. Sem testes da conversao (tests/ so tem ExampleTest).
+      => Cobrir validacao estrutural e emissores (relevante para a IC).

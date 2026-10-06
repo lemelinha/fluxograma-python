@@ -1,47 +1,43 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/php
 {
-	"name": "PHP",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/php:4-8.5-trixie",
+    "name": "PHP Laravel",
+    "image": "mcr.microsoft.com/devcontainers/php:4-8.5-trixie",
+    
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/node:2.1.0": {
+            "version": "26"
+        },
+        "ghcr.io/itsmechlark/features/postgresql:1": {}
+    },
 
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	"features": {
-		"ghcr.io/devcontainers/features/github-cli:1": {},
-		"ghcr.io/itsmechlark/features/postgresql:1": {},
-		"ghcr.io/stu-bell/devcontainer-features/node:0": {}
-	},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ikappas.composer",
+                "mtxr.sqltools",
+                "mtxr.sqltools-driver-pg"
+            ]
+        }
+    },
 
-	// Configure tool-specific properties.
-	"customizations": {
-		// Configure properties specific to VS Code.
-		"vscode": {
-			"extensions": [
-				"ikappas.composer",
-				"mtxr.sqltools",
-				"mtxr.sqltools-driver-pg"
-			]
-		}
-	},
+    "forwardPorts": [
+        8000, 
+        5173
+    ],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [
-		8000, 
-		5173,
-		5432
-	],
+    "portsAttributes": {
+        "5432": {
+            "label": "PostgreSQL",
+            "onAutoForward": "silent",
+            "requireLocalPort": true
+        }
+    },
 
-	"portsAttributes": {
-		"5432": {
-			"label": "PostgreSQL",
-			"onAutoForward": "silent",
-			"requireLocalPort": true
-		}
-	},
+    "containerEnv": {
+        "DB_USER": "lemefox",
+        "DB_PASSWORD": "senha",
+        "DB_NAME": "ic"
+    },
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y git-lfs libpq-dev && sudo -E docker-php-ext-install pdo_pgsql && printf \"\\n\" | sudo pecl install redis && sudo -E docker-php-ext-enable redis && sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html; if [ -f composer.json ]; then composer install; fi; if ! command -v opencode &> /dev/null; then curl -fsSL https://opencode.ai/install | bash; fi; echo 'export PATH=$PATH:$HOME/.opencode/bin' >> $HOME/.bashrc"
-	
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y git-lfs libpq-dev && sudo -E docker-php-ext-install pdo_pgsql && printf \"\\n\" | sudo pecl install redis && sudo -E docker-php-ext-enable redis && sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html && if [ -f composer.json ]; then composer install; npm install; fi && curl -fsSL https://opencode.ai/install | bash && echo 'export PATH=$PATH:$HOME/.opencode/bin:$HOME/.config/composer/vendor/bin' >> ~/.bashrc && psql -c \"CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD' CREATEDB;\" || true && psql -c \"CREATE DATABASE $DB_NAME OWNER $DB_USER;\" || true"
 }
