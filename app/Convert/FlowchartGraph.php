@@ -3,7 +3,8 @@
 namespace App\Convert;
 
 use App\Traits\ApiResponse;
-use Illuminate\Http\JsonResponse;
+use Exception;
+use App\Exceptions\FlowchartException;
 
 class FlowchartGraph {
     /**
@@ -11,16 +12,15 @@ class FlowchartGraph {
      */
     use ApiResponse;
 
-    public function toGraph(array $nodes, array $edges): Graph|JsonResponse {
+    public function toGraph(array $nodes, array $edges): Graph {
         $graph = new Graph();    
 
         foreach ($nodes as $node) {
             if (! array_key_exists('id', $node)) {
-                return $this->errorResponse(
-                    'Node do fluxograma sem ID',
-                    400,
-                    code: 'NODE_WITHOUT_ID'
-                );
+                throw new FlowchartException('Node sem ID');
+            }
+            if (array_key_exists($node['id'], $graph->nodes)) {
+                throw new FlowchartException('Node com ID duplicado');
             }
 
             $graph->nodes[$node['id']] = $node;
@@ -31,22 +31,18 @@ class FlowchartGraph {
                 ! array_key_exists('source', $edge) ||
                 ! array_key_exists('target', $edge)
             ) {
-                return $this->errorResponse(
-                    'Edge mal formado',
-                    400,
-                    code: 'EDGE_MALFORMED'
-                );
+                throw new FlowchartException('Edge mal formado');;
             }
 
             $source = $edge['source'];
             $target = $edge['target'];
 
             if (! array_key_exists($source, $graph->nodes)) {
-                return $this->errorResponse(
-                    'Aresta com id de node de saída inválido',
-                    400,
-                    code: 'INVALID_EDGE_SOURCE_ID'
-                );
+                throw new FlowchartException('Aresta com id de node de fonte inválido');
+            }
+
+            if (! array_key_exists($target, $graph->nodes)) {
+                throw new FlowchartException('Aresta com id de node de destino inválido');
             }
 
             $graph->nodes[$source]['targets'][] = $target;

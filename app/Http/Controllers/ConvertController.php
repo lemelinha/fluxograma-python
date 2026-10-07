@@ -18,11 +18,11 @@ class ConvertController extends Controller
     public function convert(string $sourceLanguage, string $targetLanguage, Request $request): JsonResponse
     {
         if (!in_array($sourceLanguage, config('convert.sourceLanguages'))) {
-            return $this->errorResponse('Linguagem de entrada inválida', 400, code: 'INVALID_SOURCE_LAGUANGE');
+            return $this->errorResponse('Linguagem de entrada inválida', 400, code: 'INVALID_SOURCE_LANGUANGE');
         }
 
         if (!in_array($targetLanguage, config('convert.targetLanguages'))) {
-            return $this->errorResponse('Linguagem de saída inválida', 400, code: 'INVALID_TARGET_LAGUANGE');
+            return $this->errorResponse('Linguagem de saída inválida', 400, code: 'INVALID_TARGET_LANGUANGE');
         }
 
         //$validated = $request->validate([
@@ -79,8 +79,12 @@ class ConvertController extends Controller
 
         try {
             $graph = (new FlowchartGraph)->toGraph($nodes, $edges);
-        } catch (Exception $th) {
-            dd($th);
+            $graph->validate();
+        } catch (Exception $e) {
+            return $this->errorResponse(
+                $e->getMessage(),
+                400,
+            );
         }
 
         return $this->successResponse(200, ['code' => 'código'], 'tudo ok!!!');
