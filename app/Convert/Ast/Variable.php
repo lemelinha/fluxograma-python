@@ -4,6 +4,6 @@ namespace App\Convert\Ast;
 
 class Variable {
     public function __construct(
-        string $name
+        public string $name
     ) {}
 }

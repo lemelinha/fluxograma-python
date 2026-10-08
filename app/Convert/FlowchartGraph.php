@@ -2,15 +2,12 @@
 
 namespace App\Convert;
 
-use App\Traits\ApiResponse;
-use Exception;
 use App\Exceptions\FlowchartException;
 
 class FlowchartGraph {
     /**
      * Classe que convert $nodes e $edges para grafo
      */
-    use ApiResponse;
 
     public function toGraph(array $nodes, array $edges): Graph {
         $graph = new Graph();    

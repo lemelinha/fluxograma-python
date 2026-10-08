@@ -39,8 +39,8 @@ class ConvertController extends Controller
                 'id' => 2,
                 'type' => 'input',
                 'data' => [
-                    'varName' => 'nome',
-                    'varType' => 'str',
+                    'variable' => 'nome',
+                    'dataType' => 'str',
                     'label' => 'Digite seu nome'
                 ]
             ],
@@ -80,6 +80,8 @@ class ConvertController extends Controller
         try {
             $graph = (new FlowchartGraph)->toGraph($nodes, $edges);
             $graph->validate();
+            $ast = $graph->toAst();
+            dd($ast);
         } catch (Exception $e) {
             return $this->errorResponse(
                 $e->getMessage(),
