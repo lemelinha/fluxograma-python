@@ -5,27 +5,26 @@ return [
      * --------------------------------------------------------------------------
      *     Linguagens de entrada permitidas
      * --------------------------------------------------------------------------
-     *  Essa opção serve para definir quais linguagens são permitidas para 
+     *  Essa opção serve para definir quais linguagens são permitidas para
      * serem convertidas, retornando um array das linguagens.
-     *  Nessa opção, será pego as linguagens e conferidas para permitir o 
+     *  Nessa opção, será pego as linguagens e conferidas para permitir o
      * acesso via url /api/convert/{sourceLanguages}/...
-     * 
      */
     'sourceLanguages' => [
-        'flowchart'
+        'flowchart',
     ],
 
     /**
      * --------------------------------------------------------------------------
      *     Linguagens de saída permitidas
      * --------------------------------------------------------------------------
-     *  Essa opção serve para definir quais linguagens de saída são permitidas 
+     *  Essa opção serve para definir quais linguagens de saída são permitidas
      * para serem convertidas, retornando um array das linguagens.
-     *  Nessa opção, será pego as linguagens e conferidas para permitir o 
+     *  Nessa opção, será pego as linguagens e conferidas para permitir o
      * acesso via url /api/convert/{sourceLanguages}/to/{targetLanguages}
      */
     'targetLanguages' => [
-        'python'
+        'python',
     ],
 
     /**
@@ -40,6 +39,7 @@ return [
         'input',
         'output',
         'process',
+        'decision',
     ],
 
     /**
@@ -52,7 +52,7 @@ return [
         'str',
         'int',
         'float',
-        'bool'
+        'bool',
     ],
 
     /**
@@ -63,6 +63,6 @@ return [
      */
     'allowedOutputTypes' => [
         'var',
-        'text'
+        'text',
     ],
 ];

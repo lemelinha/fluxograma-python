@@ -1,7 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConvertController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/convert/{sourceLanguage}/to/{targetLanguage}', [ConvertController::class, 'convert']);
+Route::post('/convert/{sourceLanguage}/to/{targetLanguage}', [ConvertController::class, 'convert']);

@@ -4,13 +4,14 @@ namespace App\Convert;
 
 use App\Exceptions\FlowchartException;
 
-class FlowchartGraph {
+class FlowchartGraph
+{
     /**
      * Classe que convert $nodes e $edges para grafo
      */
-
-    public function toGraph(array $nodes, array $edges): Graph {
-        $graph = new Graph();    
+    public function toGraph(array $nodes, array $edges): Graph
+    {
+        $graph = new Graph;
 
         foreach ($nodes as $node) {
             if (! array_key_exists('id', $node)) {
@@ -28,7 +29,7 @@ class FlowchartGraph {
                 ! array_key_exists('source', $edge) ||
                 ! array_key_exists('target', $edge)
             ) {
-                throw new FlowchartException('Edge mal formado');;
+                throw new FlowchartException('Edge mal formado');
             }
 
             $source = $edge['source'];
@@ -43,6 +44,10 @@ class FlowchartGraph {
             }
 
             $graph->nodes[$source]['targets'][] = $target;
+
+            if (isset($edge['label'])) {
+                $graph->nodes[$source]['branches'][$edge['label']] = $target;
+            }
         }
 
         return $graph;
