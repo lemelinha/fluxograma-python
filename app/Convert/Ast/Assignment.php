@@ -2,9 +2,9 @@
 
 namespace App\Convert\Ast;
 
-class Assignment {
+class Assignment implements Statement {
     public function __construct(
-        public Variable $var,
+        public Variable $variable,
         public Variable|Literal|Input $expression
     ){}
 }

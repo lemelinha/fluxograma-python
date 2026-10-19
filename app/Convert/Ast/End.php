@@ -2,4 +2,4 @@
 
 namespace App\Convert\Ast;
 
-class End {}
+class End implements Statement {}

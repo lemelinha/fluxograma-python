@@ -2,8 +2,8 @@
 
 namespace App\Convert\Ast;
 
-class Output {
+class Output implements Statement {
     public function __construct(
-        public string|Variable $expression
+        public Literal|Variable $expression
     ){}
 }

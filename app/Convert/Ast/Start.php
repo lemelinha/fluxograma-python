@@ -2,4 +2,4 @@
 
 namespace App\Convert\Ast;
 
-class Start {}
+class Start implements Statement {}

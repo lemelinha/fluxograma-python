@@ -16,7 +16,8 @@ Sistema web que traduz fluxogramas (ReactFlow) em código Python/JS. Este reposi
 - Destino: `python` (ou `js` a partir da mesma AST)
 
 ## Regra de atuação (standing)
-**Só ler e analisar. Não criar, editar ou remover código-fonte.**
+**Só ler e analisar. Não criar, editar ou remover código-fonte (somente se for pedido explicitamente).**
+**Não dar commit em nenhum momento sem o pedido e autorização do uso**
 Exceções já autorizadas antes: criar docs de texto quando pedido (`PENDENCIAS.txt`, este arquivo).
 
 **Estrutura do código:**

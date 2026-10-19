@@ -81,7 +81,7 @@ class ConvertController extends Controller
             $graph = (new FlowchartGraph)->toGraph($nodes, $edges);
             $graph->validate();
             $ast = $graph->toAst();
-            dd($ast);
+            dd($ast->toPython());
         } catch (Exception $e) {
             return $this->errorResponse(
                 $e->getMessage(),
