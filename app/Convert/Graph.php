@@ -10,7 +10,8 @@ use App\Convert\Ast\{
     Output,
     Assignment,
     Variable, 
-    Literal
+    Literal,
+    Process
 };
 
 class Graph {
@@ -107,6 +108,13 @@ class Graph {
                     }
                     $this->makeOutput($ast, $current);
                     break;
+                case 'process':
+                    // verificar se existe 'data'
+                    if (! array_key_exists('data', $current)) {
+                        throw new FlowchartException('Node Process sem data');
+                    }
+                    $this->makeProcess($ast, $current);
+                    break;
             }
 
             $visited[] = $current;
@@ -164,29 +172,42 @@ class Graph {
             throw new FlowchartException('Node Output sem data');
         }
 
-        if (
-            ! array_key_exists('type', $node['data']['expression']) || 
-            ! array_key_exists('value', $node['data']['expression'])
-            ) {
-            throw new FlowchartException('Expressão do Node de Output inválida');
+        //if (
+        //    ! array_key_exists('type', $node['data']['expression']) || 
+        //    ! array_key_exists('value', $node['data']['expression'])
+        //    ) {
+        //    throw new FlowchartException('Expressão do Node de Output inválida');
+        //}
+
+        //$outputType = $node['data']['expression']['type'];
+
+        //if (! in_array($outputType, config('convert.allowedOutputTypes'))) {
+        //    throw new FlowchartException('Tipo de output inválido');
+        //
+
+        //$outputValue = new Literal('str', '');
+        //switch ($outputType) {
+        //    case 'var':
+        //        $outputValue = new Variable($node['data']['expression']['value']);
+        //        break;
+        //    case 'text':
+        //        $outputValue = new Literal('str', $node['data']['expression']['value']);
+        //        break;
+        //}
+
+        $ast->statements[] = new Output($node['data']['expression']);
+    }
+
+    private function makeProcess(Program &$ast, array $node): void {
+        if (! array_key_exists('variable', $node['data'])) {
+            throw new FlowchartException('Node Process sem data');
         }
 
-        $outputType = $node['data']['expression']['type'];
-
-        if (! in_array($outputType, config('convert.allowedOutputTypes'))) {
-            throw new FlowchartException('Tipo de output inválido');
+        if (! array_key_exists('expression', $node['data'])) {
+            throw new FlowchartException('Node Process sem expressão');
         }
 
-        $outputValue = new Literal('str', '');
-        switch ($outputType) {
-            case 'var':
-                $outputValue = new Variable($node['data']['expression']['value']);
-                break;
-            case 'text':
-                $outputValue = new Literal('str', $node['data']['expression']['value']);
-                break;
-        }
-
-        $ast->statements[] = new Output($outputValue);
+        $var = new Variable($node['data']['variable']);
+        $ast->statements[] = new Process($var, $node['data']['expression']);
     }
 }

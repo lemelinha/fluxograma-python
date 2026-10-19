@@ -11,6 +11,7 @@ use App\Convert\Ast\Output;
 use App\Convert\Ast\Assignment;
 use App\Convert\Ast\Variable;
 use App\Convert\Ast\Literal;
+use App\Convert\Ast\Process;
 use App\Exceptions\FlowchartException;
 
 class PythonGenerator
@@ -40,14 +41,15 @@ class PythonGenerator
         {
             Output::class => $this->generateOutput($statement),
             Assignment::class => $this->generateAssignment($statement),
+            Process::class => $this->generateProcess($statement),
             default => throw new FlowchartException("Statement não suportado: " . $statement::class)
         };
     }
 
     private function generateOutput(Output $output): string
     {
-        $expression = $this->generateExpression($output->expression);
-        return "print({$expression})";
+        //$expression = $this->generateExpression($output->expression);
+        return "print({$output->expression})";
     }
 
     private function generateAssignment(Assignment $assignment): string
@@ -95,5 +97,12 @@ class PythonGenerator
     {
         $type = $input->type;
         return "{$type}(input('{$input->text} '))";
+    }
+
+    private function generateProcess(Process $process): string
+    {
+        $var = $process->variable->name;
+        $expression = $process->expression;
+        return "{$var} = {$expression}";
     }
 }

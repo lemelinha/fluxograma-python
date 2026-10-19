@@ -38,7 +38,8 @@ return [
         'start',
         'end',
         'input',
-        'output'
+        'output',
+        'process',
     ],
 
     /**
